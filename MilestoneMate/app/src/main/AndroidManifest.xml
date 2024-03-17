@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.milestonemate.StartPageActivity" />
+        <activity android:name="com.example.milestonemate.SignupActivity" />
+        <activity android:name="com.example.milestonemate.LoginActivity" />
     </application>
 
 </manifest>
