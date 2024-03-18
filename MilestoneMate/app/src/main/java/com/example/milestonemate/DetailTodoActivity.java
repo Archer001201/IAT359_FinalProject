@@ -2,6 +2,7 @@ package com.example.milestonemate;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,11 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.Manifest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class DetailTodoActivity extends AppCompatActivity
 {
@@ -50,6 +56,8 @@ public class DetailTodoActivity extends AppCompatActivity
 
         //set click linstener
         state.setOnClickListener(v -> {
+            //--------1 up
+            // requestCameraPermission();
             //photo intent
             Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -62,6 +70,42 @@ public class DetailTodoActivity extends AppCompatActivity
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private static final int PERMISSION_REQUEST_CAMERA = 2;
+
+    private void requestCameraPermission()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+        }
+        else
+        {
+            // 如果权限已经被授予，直接调用相机
+            dispatchTakePictureIntent();
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 如果权限被授予，再次调用相机
+                dispatchTakePictureIntent();
+            } else {
+                // 权限被拒绝，可以展示一些提示给用户
+            }
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // 两套相机调用，还没有完全弄完
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
