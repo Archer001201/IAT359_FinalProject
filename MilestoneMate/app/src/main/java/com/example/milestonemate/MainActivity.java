@@ -1,6 +1,8 @@
 package com.example.milestonemate;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +14,14 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    MyDatabase db;
+    private MyDatabase db;
+    private RecyclerView todoRecyclerView;
+    private RecyclerView.Adapter todoAdapter;
+    private RecyclerView.LayoutManager todoLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +66,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Display recycler view
+        String uid = sharedPreferences.getString("uid", "0");
+        List<TodoSlot> todoSlots = db.getTodayTodoByUid(uid, currentDate);
+        todoRecyclerView = findViewById(R.id.todoList);
+        todoRecyclerView.setHasFixedSize(true);
+        todoLayoutManager = new LinearLayoutManager(this);
+        todoRecyclerView.setLayoutManager(todoLayoutManager);
+        todoAdapter = new TodoRecyclerView(todoSlots, this);
+        todoRecyclerView.setAdapter(todoAdapter);
     }
 }

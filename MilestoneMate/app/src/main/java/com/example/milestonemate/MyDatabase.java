@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyDatabase {
     private final Context context;
     private final DatabaseHelper helper;
@@ -83,6 +86,39 @@ public class MyDatabase {
         contentValues.put(Constants.TODO_TITLE, title);
         contentValues.put(Constants.DUE_DATE, dueDate);
         contentValues.put(Constants.TODO_UID, Integer.parseInt(uid));
+        contentValues.put(Constants.TODO_STATE, Constants.INCOMPLETE);
         db.insert(Constants.TODO_TABLE, null, contentValues);
     }
+
+    public List<TodoSlot> getTodayTodoByUid(String uid, String date){
+        List<TodoSlot> todoList = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {Constants.TODO_TITLE, Constants.TODO_STATE};
+        String selection = Constants.TODO_UID + "=? AND " + Constants.DUE_DATE + "=?";
+        String[] selectionArgs = {uid, date};
+
+        Cursor cursor = db.query(Constants.TODO_TABLE, columns, selection, selectionArgs, null, null, null);
+
+        int titleIndex = cursor.getColumnIndex(Constants.TODO_TITLE);
+        int stateIndex = cursor.getColumnIndex(Constants.TODO_STATE);
+
+        if (titleIndex != -1 && stateIndex != -1) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String title = cursor.getString(titleIndex);
+                    String state = cursor.getString(stateIndex);
+
+                    TodoSlot item = new TodoSlot(title, state);
+                    todoList.add(item);
+                } while (cursor.moveToNext());
+            }
+        } else {
+            Log.e("getTodayTodoByUid", "One or more column names are invalid.");
+        }
+        cursor.close();
+
+        return todoList;
+    }
+
 }

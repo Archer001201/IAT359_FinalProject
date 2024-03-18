@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@id/todoListText"
         app:layout_constraintStart_toStartOf="@id/todoListText"
         android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="50dp"/>
+        android:layout_marginHorizontal="10dp"/>
 
     <Button
         android:id="@+id/addNewButton"

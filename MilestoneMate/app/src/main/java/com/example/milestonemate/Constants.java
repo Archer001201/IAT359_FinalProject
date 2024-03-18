@@ -2,7 +2,7 @@ package com.example.milestonemate;
 
 public class Constants {
     public static final String DATABASE_NAME = "milestone_mate_database";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
 
     //Constants of user table
     public static final String USER_TABLE = "users";
@@ -21,4 +21,7 @@ public class Constants {
     public static final String TODO_DESCRIPTION = "todo_description";
     public static final String IMAGE_PATH = "image_path";
 
+    //Constants of todoEvent state
+    public static final String COMPLETE = "complete";
+    public static final String INCOMPLETE = "incomplete";
 }
