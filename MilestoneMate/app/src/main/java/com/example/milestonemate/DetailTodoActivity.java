@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,7 +58,7 @@ public class DetailTodoActivity extends AppCompatActivity
         //set click linstener
         state.setOnClickListener(v -> {
             //--------1 up
-            // requestCameraPermission();
+            /*requestCameraPermission();*/
             //photo intent
             Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -90,9 +91,11 @@ public class DetailTodoActivity extends AppCompatActivity
         if (requestCode == PERMISSION_REQUEST_CAMERA) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 如果权限被授予，再次调用相机
+                Log.d("DetailTodoActivity", "Camera permission granted - launching camera");
                 dispatchTakePictureIntent();
             } else {
                 // 权限被拒绝，可以展示一些提示给用户
+                Log.d("DetailTodoActivity", "Camera permission denied");
             }
         }
     }
