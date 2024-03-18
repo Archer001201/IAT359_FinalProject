@@ -12,4 +12,14 @@
     <string name="password_text_2">Confirm Password</string>
     <string name="title">Milestone Mate</string>
     <string name="welcome_text">Welcome, %1$s!</string>
+    <string name="today_todo">Today\'s ToDo</string>
+    <string name="todo_title">todo title</string>
+    <string name="todo_state">Incomplete</string>
+    <string name="add_new_todo_button">Add New</string>
+    <string name="title_text">Title</string>
+    <string name="due_data_text">Due Data</string>
+    <string name="title_input" />
+    <string name="due_date_input" />
+    <string name="submit_button">Submit</string>
+    <string name="add_a_new_todo_text">Add a New ToDo</string>
 </resources>

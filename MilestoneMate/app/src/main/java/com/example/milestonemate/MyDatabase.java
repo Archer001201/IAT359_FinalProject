@@ -21,15 +21,15 @@ public class MyDatabase {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.USERNAME, username);
-        contentValues.put(Constants.Email, email);
+        contentValues.put(Constants.EMAIL, email);
         contentValues.put(Constants.PASSWORD, password);
         db.insert(Constants.USER_TABLE, null, contentValues);
     }
 
     public boolean checkUserExists(String email) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        String[] columns = { Constants.Email };
-        String selection = Constants.Email + " = ?";
+        String[] columns = { Constants.EMAIL };
+        String selection = Constants.EMAIL + " = ?";
         String[] selectionArgs = { email };
 
         Cursor cursor = db.query(
@@ -54,7 +54,7 @@ public class MyDatabase {
         Cursor cursor = db.query(
                 Constants.USER_TABLE,
                 new String[]{returnType},
-                Constants.Email + "=?",
+                Constants.EMAIL + "=?",
                 new String[]{email},
                 null,
                 null,
@@ -74,5 +74,15 @@ public class MyDatabase {
         }
         db.close();
         return result;
+    }
+
+    public void addNewTodo(String uid, String title, String dueDate){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.TODO_TITLE, title);
+        contentValues.put(Constants.DUE_DATE, dueDate);
+        contentValues.put(Constants.TODO_UID, Integer.parseInt(uid));
+        db.insert(Constants.TODO_TABLE, null, contentValues);
     }
 }

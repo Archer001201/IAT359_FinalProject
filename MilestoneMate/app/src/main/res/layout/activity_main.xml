@@ -14,10 +14,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/dateText"
@@ -25,11 +25,36 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintTop_toBottomOf="@id/welcomeText"
+        app:layout_constraintStart_toStartOf="@id/welcomeText"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/todoListText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/today_todo"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/dateText"
+        app:layout_constraintStart_toStartOf="@id/dateText"
+        android:layout_marginTop="40dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todoList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/todoListText"
+        app:layout_constraintStart_toStartOf="@id/todoListText"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="50dp"/>
+
+    <Button
+        android:id="@+id/addNewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_todo_button"
+        app:layout_constraintStart_toEndOf="@id/todoListText"
+        app:layout_constraintBottom_toBottomOf="@id/todoListText"
+        android:layout_marginStart="50dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
