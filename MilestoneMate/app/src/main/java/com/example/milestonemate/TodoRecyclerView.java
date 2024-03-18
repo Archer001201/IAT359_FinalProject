@@ -41,7 +41,11 @@ public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.View
                 TodoSlot currentSlot = todoSlots.get(holder.getAdapterPosition());
                 Intent intent = new Intent(context, DetailTodoActivity.class);
                 intent.putExtra("title",currentSlot.getTitle());
-                //intent.putExtra("time",currentSlot.getDate());
+                intent.putExtra("date",currentSlot.getDate());
+                intent.putExtra("todo_id", currentSlot.getId());
+                intent.putExtra("state", currentSlot.getState());
+                intent.putExtra("description", currentSlot.getDescription());
+                intent.putExtra("image_path", currentSlot.getImagePath());
                 context.startActivity(intent);
             }
         });

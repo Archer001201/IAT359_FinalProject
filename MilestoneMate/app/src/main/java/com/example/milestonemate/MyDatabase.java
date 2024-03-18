@@ -98,18 +98,28 @@ public class MyDatabase {
         String selection = Constants.TODO_UID + "=? AND " + Constants.DUE_DATE + "=?";
         String[] selectionArgs = {uid, date};
 
-        Cursor cursor = db.query(Constants.TODO_TABLE, columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(Constants.TODO_TABLE, null, selection, selectionArgs, null, null, null);
 
         int titleIndex = cursor.getColumnIndex(Constants.TODO_TITLE);
         int stateIndex = cursor.getColumnIndex(Constants.TODO_STATE);
+        int idIndex = cursor.getColumnIndex(Constants.TODO_ID);
+        int uidIndex = cursor.getColumnIndex(Constants.TODO_UID);
+        int dateIndex = cursor.getColumnIndex(Constants.DUE_DATE);
+        int descriptionIndex = cursor.getColumnIndex(Constants.TODO_DESCRIPTION);
+        int imagePathIndex = cursor.getColumnIndex(Constants.IMAGE_PATH);
 
         if (titleIndex != -1 && stateIndex != -1) {
             if (cursor.moveToFirst()) {
                 do {
+                    String id = cursor.getString(idIndex);
+                    String todo_uid = cursor.getString(uidIndex);
                     String title = cursor.getString(titleIndex);
                     String state = cursor.getString(stateIndex);
+                    String todo_date = cursor.getString(dateIndex);
+                    String description = cursor.getString(descriptionIndex);
+                    String imagePath = cursor.getString(imagePathIndex);
 
-                    TodoSlot item = new TodoSlot(title, state);
+                    TodoSlot item = new TodoSlot(id, todo_uid, title, state, todo_date, description, imagePath);
                     todoList.add(item);
                 } while (cursor.moveToNext());
             }
@@ -121,4 +131,17 @@ public class MyDatabase {
         return todoList;
     }
 
+    public int updateTodoById(String id, String state, String description, String imagePath){
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.TODO_STATE, state);
+        contentValues.put(Constants.TODO_DESCRIPTION, description);
+        contentValues.put(Constants.IMAGE_PATH, imagePath);
+
+        String selection = Constants.TODO_ID + "=?";
+        String[] selectionArgs = { id };
+
+        return db.update(Constants.TODO_TABLE, contentValues, selection, selectionArgs);
+    }
 }
