@@ -1,6 +1,7 @@
 package com.example.milestonemate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.ViewHolder> {
+public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.ViewHolder>
+{
     private List<TodoSlot> todoSlots;
     private Context context;
+
 
     public TodoRecyclerView(List<TodoSlot> slots, Context context){
         todoSlots = slots;
@@ -31,6 +34,17 @@ public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.View
     public void onBindViewHolder(@NonNull TodoRecyclerView.ViewHolder holder, int position) {
         holder.getTitleText().setText(todoSlots.get(position).getTitle());
         holder.getStateText().setText(todoSlots.get(position).getState());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                TodoSlot currentSlot = todoSlots.get(holder.getAdapterPosition());
+                Intent intent = new Intent(context, DetailTodoActivity.class);
+                intent.putExtra("title",currentSlot.getTitle());
+                //intent.putExtra("time",currentSlot.getDate());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -38,9 +52,11 @@ public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.View
         return todoSlots.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
         private TextView titleText;
         private TextView stateText;
+
         public ViewHolder(View view){
             super(view);
             titleText = view.findViewById(R.id.todoTitle);

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,6 +28,7 @@
         <activity android:name="com.example.milestonemate.SignupActivity" />
         <activity android:name="com.example.milestonemate.LoginActivity" />
         <activity android:name="com.example.milestonemate.AddNewTodoActivity" />
+        <activity android:name=".DetailTodoActivity"> </activity>
     </application>
 
 </manifest>
