@@ -22,6 +22,6 @@ public class Constants {
     public static final String IMAGE_PATH = "image_path";
 
     //Constants of todoEvent state
-    public static final String COMPLETE = "complete";
-    public static final String INCOMPLETE = "incomplete";
+    public static final String COMPLETE = "Complete";
+    public static final String INCOMPLETE = "Incomplete";
 }
