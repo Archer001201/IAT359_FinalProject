@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView todoRecyclerView;
     private RecyclerView.Adapter todoAdapter;
     private RecyclerView.LayoutManager todoLayoutManager;
+    private String currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
             editor.clear();
             editor.putBoolean("isLoggedIn", false);
             editor.apply();
+            Intent intent = new Intent(this, StartPageActivity.class);
+            startActivity(intent);
+            finish();
         }
         //If is not login, turn to login/signup page
         if (!isLoggedIn) {
@@ -50,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //Display current date
         TextView dateTextView = findViewById(R.id.dateText);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentDate = dateFormat.format(new Date());
+        currentDate = dateFormat.format(new Date());
         dateTextView.setText(currentDate);
         //Display welcome message and username
         TextView welcomeTextView = findViewById(R.id.welcomeText);
@@ -67,9 +73,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Get radio group
+        RadioGroup radioGroupDate = (RadioGroup) findViewById(R.id.radioGroupDate);
+        radioGroupDate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                RadioButton selectedRadioButton = (RadioButton) findViewById(checkedId);
+                String result = selectedRadioButton.getText().toString().trim();
+                editor.putString("dateRadioResult",result);
+                editor.apply();
+                DisplayTodoList();
+            }
+        });
+
+        RadioGroup radioGroupState = (RadioGroup) findViewById(R.id.radioGroupState);
+        radioGroupState.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                RadioButton selectedRadioButton = (RadioButton) findViewById(checkedId);
+                String result = selectedRadioButton.getText().toString().trim();
+                editor.putString("stateRadioResult",result);
+                editor.apply();
+                DisplayTodoList();
+            }
+        });
+
+        DisplayTodoList();
+    }
+
+    private void DisplayTodoList(){
         //Display recycler view
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String uid = sharedPreferences.getString("uid", "0");
-        List<TodoSlot> todoSlots = db.getTodayTodoByUid(uid, currentDate);
+        String dateResult = sharedPreferences.getString("dateRadioResult", "All");
+        String stateResult = sharedPreferences.getString("stateRadioResult", "All");
+        List<TodoSlot> todoSlots = db.getTodoListById(uid, currentDate, dateResult, stateResult);
         todoRecyclerView = findViewById(R.id.todoList);
         todoRecyclerView.setHasFixedSize(true);
         todoLayoutManager = new LinearLayoutManager(this);

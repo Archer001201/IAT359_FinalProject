@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.Manifest;
@@ -41,7 +42,8 @@ public class DetailTodoActivity extends AppCompatActivity
     MyDatabase db;
     private TextView todoDetailName, todoDetailTime, todoDetailState;
     private String title, date, state, id, description;
-    private Button cameraButton, submitButton;
+    private Button deleteButton, submitButton;
+    private ImageButton cameraButton;
 
     private EditText describeText;
 
@@ -80,8 +82,9 @@ public class DetailTodoActivity extends AppCompatActivity
         todoDetailState.setText(state);
         describeText.setText(description);
 
-        cameraButton = findViewById(R.id.todo_take_picture_button);
+        cameraButton = findViewById(R.id.cameraButton);
         submitButton = findViewById(R.id.todo_detail_info_submit_stateChange);
+        deleteButton = findViewById(R.id.todo_delete_button);
 
         //Set camera launcher
         takePictureLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -109,8 +112,20 @@ public class DetailTodoActivity extends AppCompatActivity
 
                 description = describeText.getText().toString();
                 db.updateTodoById(id, state, description, imagePath);
+
+                goToMainActivity();
             }
         });
+
+        deleteButton.setOnClickListener(v -> {
+            db.deleteTodoById(id);
+            goToMainActivity();
+        });
+    }
+
+    private void goToMainActivity(){
+        Intent intent_toMain = new Intent(this, MainActivity.class);
+        startActivity(intent_toMain);
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 1;

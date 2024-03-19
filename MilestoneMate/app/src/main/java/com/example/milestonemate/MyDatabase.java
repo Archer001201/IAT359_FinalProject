@@ -90,15 +90,42 @@ public class MyDatabase {
         db.insert(Constants.TODO_TABLE, null, contentValues);
     }
 
-    public List<TodoSlot> getTodayTodoByUid(String uid, String date){
+    public List<TodoSlot> getTodoListById(String uid, String date, String dateRadioResult, String stateRadioResult){
         List<TodoSlot> todoList = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
+        List<String> selectionArgsList = new ArrayList<>();
+        selectionArgsList.add(uid);
+
+        String selection_1 = "";
+        if (dateRadioResult.equals("Today")){
+            selection_1 = " AND " + Constants.DUE_DATE + "=?";
+            selectionArgsList.add(date);
+        }
+        else if (dateRadioResult.equals("Other")){
+            selection_1 = " AND " + Constants.DUE_DATE + "!=?";
+            selectionArgsList.add(date);
+        }
+
+        String selection_2 = "";
+        if (!stateRadioResult.equals("All")){
+            selection_2 = " AND " + Constants.TODO_STATE + "=?";
+            selectionArgsList.add(stateRadioResult);
+        }
+
 
         String[] columns = {Constants.TODO_TITLE, Constants.TODO_STATE};
-        String selection = Constants.TODO_UID + "=? AND " + Constants.DUE_DATE + "=?";
-        String[] selectionArgs = {uid, date};
+        String selection = Constants.TODO_UID + "=?" + selection_1 + selection_2;
+        String[] selectionArgs = selectionArgsList.toArray(new String[0]);
 
-        Cursor cursor = db.query(Constants.TODO_TABLE, null, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(
+                Constants.TODO_TABLE,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
 
         int titleIndex = cursor.getColumnIndex(Constants.TODO_TITLE);
         int stateIndex = cursor.getColumnIndex(Constants.TODO_STATE);
@@ -131,7 +158,7 @@ public class MyDatabase {
         return todoList;
     }
 
-    public int updateTodoById(String id, String state, String description, String imagePath){
+    public void updateTodoById(String id, String state, String description, String imagePath){
         SQLiteDatabase db = helper.getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -142,6 +169,13 @@ public class MyDatabase {
         String selection = Constants.TODO_ID + "=?";
         String[] selectionArgs = { id };
 
-        return db.update(Constants.TODO_TABLE, contentValues, selection, selectionArgs);
+        db.update(Constants.TODO_TABLE, contentValues, selection, selectionArgs);
+    }
+
+    public void deleteTodoById(String id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String selection = Constants.TODO_ID + " = ?";
+        String[] selectionArgs = { id };
+        db.delete(Constants.TODO_TABLE, selection, selectionArgs);
     }
 }

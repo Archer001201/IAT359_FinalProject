@@ -34,6 +34,7 @@ public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.View
     public void onBindViewHolder(@NonNull TodoRecyclerView.ViewHolder holder, int position) {
         holder.getTitleText().setText(todoSlots.get(position).getTitle());
         holder.getStateText().setText(todoSlots.get(position).getState());
+        holder.getDateText().setText(todoSlots.get(position).getDate());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -60,14 +61,17 @@ public class TodoRecyclerView extends RecyclerView.Adapter<TodoRecyclerView.View
     {
         private TextView titleText;
         private TextView stateText;
+        private TextView dateText;
 
         public ViewHolder(View view){
             super(view);
             titleText = view.findViewById(R.id.todoTitle);
             stateText = view.findViewById(R.id.todoState);
+            dateText = view.findViewById(R.id.todoDate);
         }
 
         public TextView getTitleText() { return titleText; }
         public TextView getStateText(){ return stateText; }
+        public TextView getDateText() { return dateText; }
     }
 }

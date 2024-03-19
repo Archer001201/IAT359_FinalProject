@@ -79,11 +79,6 @@
             android:layout_height="wrap_content"
             android:text="All" />
 
-        <RadioButton
-            android:id="@+id/date_past"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Past" />
 
         <RadioButton
             android:id="@+id/date_today"
@@ -92,10 +87,10 @@
             android:text="Today" />
 
         <RadioButton
-            android:id="@+id/date_future"
+            android:id="@+id/date_other"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Future" />
+            android:text="Other" />
     </RadioGroup>
 
     <RadioGroup
@@ -119,16 +114,16 @@
             android:text="All" />
 
         <RadioButton
-            android:id="@+id/state_completed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Completed" />
-
-        <RadioButton
             android:id="@+id/state_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Incomplete" />
+
+        <RadioButton
+            android:id="@+id/state_completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Completed" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

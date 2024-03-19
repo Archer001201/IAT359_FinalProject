@@ -2,7 +2,7 @@ package com.example.milestonemate;
 
 public class Constants {
     public static final String DATABASE_NAME = "milestone_mate_database";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 8;
 
     //Constants of user table
     public static final String USER_TABLE = "users";
@@ -10,6 +10,7 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String REWARD_POINT = "reward_point";
 
     //Constants of todoList table
     public static final String TODO_TABLE = "todo";
@@ -22,6 +23,6 @@ public class Constants {
     public static final String IMAGE_PATH = "image_path";
 
     //Constants of todoEvent state
-    public static final String COMPLETE = "Complete";
+    public static final String COMPLETE = "Completed";
     public static final String INCOMPLETE = "Incomplete";
 }

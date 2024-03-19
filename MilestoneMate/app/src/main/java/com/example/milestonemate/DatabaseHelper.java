@@ -17,7 +17,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     Constants.USERNAME + " TEXT, " +
                     Constants.EMAIL + " TEXT, " +
-                    Constants.PASSWORD + " TEXT);" ;
+                    Constants.PASSWORD + " TEXT, " +
+                    Constants.REWARD_POINT + " INTEGER DEFAULT 0);";
 
     private static final String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + Constants.USER_TABLE;
 
