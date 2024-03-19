@@ -79,6 +79,37 @@ public class MyDatabase {
         return result;
     }
 
+    //获取数据库里面的用户的数据，传递一个用户uid和一个数据类型（调用Constants类里的常量）
+    public String getValueByUid(String uid, String returnType){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String result = null;
+
+        Cursor cursor = db.query(
+                Constants.USER_TABLE,
+                new String[]{returnType},
+                Constants.UID + "=?",
+                new String[]{uid},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(returnType);
+            if (columnIndex != -1) {
+                result = cursor.getString(columnIndex);
+            } else {
+                Log.e("getValueByUid", "Column " + returnType + " does not exist.");
+            }
+            cursor.close();
+        } else {
+            Log.e("getValueByUid", "No entry matches the given email.");
+        }
+        db.close();
+        return result;
+    }
+
+    //更新奖励点数，传递用户uid和更新的点数的值，用户uid通过shared preferences获取
     public void updateRewardPointsByUid(String uid, int value){
         SQLiteDatabase db = helper.getReadableDatabase();
 
