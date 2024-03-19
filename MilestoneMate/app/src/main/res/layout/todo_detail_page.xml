@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/todo_detail_info_time"
+        android:id="@+id/todo_detail_info_name"
         android:layout_width="135dp"
-        android:layout_height="36dp"
+        android:layout_height="37dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="56dp"
         android:text="Hello World!"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,18 +21,18 @@
         android:layout_width="135dp"
         android:layout_height="36dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="112dp"
         android:text="Hello World!"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/todo_detail_info_time"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/todo_detail_info_name"
+        android:id="@+id/todo_detail_info_time"
         android:layout_width="135dp"
-        android:layout_height="37dp"
+        android:layout_height="36dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="112dp"
         android:text="Hello World!"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:layout_width="323dp"
         android:layout_height="141dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="184dp"
         android:ems="10"
         android:inputType="text"
 
@@ -74,12 +74,12 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="222dp"
-        android:layout_height="206dp"
-        android:layout_marginBottom="140dp"
+        android:layout_width="272dp"
+        android:layout_height="233dp"
+        android:layout_marginBottom="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 

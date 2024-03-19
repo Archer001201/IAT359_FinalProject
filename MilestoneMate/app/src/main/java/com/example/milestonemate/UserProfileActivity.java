@@ -23,6 +23,7 @@ public class UserProfileActivity extends AppCompatActivity {
         TextView emailText = findViewById(R.id.email);
         TextView rewardPointText = findViewById(R.id.rewardPoint);
 
+
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "");
         String email = sharedPreferences.getString("email", "");
@@ -46,6 +47,12 @@ public class UserProfileActivity extends AppCompatActivity {
         ImageButton calendarButton = findViewById(R.id.calendarButton);
         calendarButton.setOnClickListener(v -> {
             Intent intent  = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        Button gaChaForward = findViewById(R.id.GaCha);
+        gaChaForward.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Gacha.class);
             startActivity(intent);
         });
     }
