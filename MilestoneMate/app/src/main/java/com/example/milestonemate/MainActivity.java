@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -102,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
                 DisplayTodoList();
             }
+        });
+
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            startActivity(intent);
         });
 
         DisplayTodoList();

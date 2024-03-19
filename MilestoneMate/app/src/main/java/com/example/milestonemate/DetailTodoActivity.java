@@ -112,7 +112,7 @@ public class DetailTodoActivity extends AppCompatActivity
 
                 description = describeText.getText().toString();
                 db.updateTodoById(id, state, description, imagePath);
-
+                addRewardPoints();
                 goToMainActivity();
             }
         });
@@ -121,6 +121,15 @@ public class DetailTodoActivity extends AppCompatActivity
             db.deleteTodoById(id);
             goToMainActivity();
         });
+    }
+
+    private void addRewardPoints(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String uid = sharedPreferences.getString("uid", "");
+        String email = sharedPreferences.getString("email", "");
+        int currentRewardPoints = Integer.parseInt(db.getValueByEmail(email, Constants.REWARD_POINT));
+        int finalRewardPoints = currentRewardPoints + 10;
+        db.updateRewardPointsByUid(uid, finalRewardPoints);
     }
 
     private void goToMainActivity(){

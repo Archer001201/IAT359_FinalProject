@@ -79,6 +79,18 @@ public class MyDatabase {
         return result;
     }
 
+    public void updateRewardPointsByUid(String uid, int value){
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.REWARD_POINT, value);
+
+        String selection = Constants.UID + "=?";
+        String[] selectionArgs = { uid };
+
+        db.update(Constants.USER_TABLE, contentValues, selection, selectionArgs);
+    }
+
     public void addNewTodo(String uid, String title, String dueDate){
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -113,7 +125,7 @@ public class MyDatabase {
         }
 
 
-        String[] columns = {Constants.TODO_TITLE, Constants.TODO_STATE};
+//        String[] columns = {Constants.TODO_TITLE, Constants.TODO_STATE};
         String selection = Constants.TODO_UID + "=?" + selection_1 + selection_2;
         String[] selectionArgs = selectionArgsList.toArray(new String[0]);
 

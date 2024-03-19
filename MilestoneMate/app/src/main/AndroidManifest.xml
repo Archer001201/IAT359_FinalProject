@@ -30,6 +30,7 @@
         <activity android:name="com.example.milestonemate.SignupActivity" />
         <activity android:name="com.example.milestonemate.LoginActivity" />
         <activity android:name="com.example.milestonemate.AddNewTodoActivity" />
+        <activity android:name="com.example.milestonemate.UserProfileActivity" />
         <activity android:name=".DetailTodoActivity"> </activity>
 
         <provider
