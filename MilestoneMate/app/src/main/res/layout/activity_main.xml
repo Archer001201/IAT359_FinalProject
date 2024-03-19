@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="220dp"
         android:text="@string/today_todo"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@id/dateText"
@@ -43,7 +43,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todoList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="@id/todoListText"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateText">
 
