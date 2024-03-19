@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.Constraints;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private final Context context;
-
+    // SQL statement to create a user table
     private static final String CREATE_USER_TABLE =
             "CREATE TABLE " +
                     Constants.USER_TABLE + " (" +
@@ -20,8 +20,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Constants.PASSWORD + " TEXT, " +
                     Constants.REWARD_POINT + " INTEGER DEFAULT 0);";
 
+    // SQL statement to drop the user table if it exists
     private static final String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + Constants.USER_TABLE;
 
+    // SQL statement to create a todo table
     private static final String CREATE_TODO_TABLE =
             "CREATE TABLE " +
                     Constants.TODO_TABLE + " (" +
@@ -34,12 +36,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Constants.TODO_UID + " INTEGER);";
 
     private static final String DROP_TODO_TABLE = "DROP TABLE IF EXISTS " + Constants.TODO_TABLE;
-
+    // Constructor for DatabaseHelper
     public DatabaseHelper(Context context){
         super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
         this.context = context;
     }
 
+    // Called when the database is created for the first time
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -50,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "exception onCreate() db", Toast.LENGTH_LONG).show();
         }
     }
-
+    // Called when the database needs to be upgraded
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {

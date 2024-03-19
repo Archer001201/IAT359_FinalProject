@@ -200,6 +200,10 @@ public class DetailTodoActivity extends AppCompatActivity
     }
 
     private void updateImageView(String imagePath) {
+
+        if (imageView.getWidth() == 0 || imageView.getHeight() == 0) {
+            return;
+        }
         int targetW = imageView.getWidth();
         int targetH = imageView.getHeight();
 
@@ -209,7 +213,7 @@ public class DetailTodoActivity extends AppCompatActivity
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
-        int scaleFactor = Math.max(1, Math.min(photoW/10, photoH/10));
+        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
 
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
@@ -218,4 +222,13 @@ public class DetailTodoActivity extends AppCompatActivity
         Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
         imageView.setImageBitmap(bitmap);
     }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            updateImageView(imagePath);
+        }
+    }
+
+
 }

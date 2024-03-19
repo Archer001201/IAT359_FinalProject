@@ -15,16 +15,19 @@ public class AddNewTodoActivity extends AppCompatActivity {
     private EditText titleInput;
     private EditText dateInput;
     private Button submitButton;
+
+    // Initializes the activity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Initialize database helper and set up the UI layout
         db = new MyDatabase(this);
 
         setContentView(R.layout.activity_add_new_todo);
         titleInput = findViewById(R.id.title);
         dateInput = findViewById(R.id.dueDate);
         submitButton = findViewById(R.id.submitButton);
-
+        // Set up a click listener for the submit button to add a new todo item
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +37,7 @@ public class AddNewTodoActivity extends AppCompatActivity {
                 String uid = sharedPreferences.getString("uid", "0");
 
                 db.addNewTodo(uid, title, date);
-
+                // Add new todo item to the database and navigate back to the main activity
                 Intent intent = new Intent(AddNewTodoActivity.this, MainActivity.class);
                 startActivity(intent);
             }
