@@ -80,9 +80,9 @@ public class MyDatabase {
     }
 
     //获取数据库里面的用户的数据，传递一个用户uid和一个数据类型（调用Constants类里的常量）
-    public String getValueByUid(String uid, String returnType){
+    public int getValueByUid(String uid, String returnType){
         SQLiteDatabase db = helper.getReadableDatabase();
-        String result = null;
+        int result = 0;
 
         Cursor cursor = db.query(
                 Constants.USER_TABLE,
@@ -97,7 +97,7 @@ public class MyDatabase {
         if (cursor != null && cursor.moveToFirst()) {
             int columnIndex = cursor.getColumnIndex(returnType);
             if (columnIndex != -1) {
-                result = cursor.getString(columnIndex);
+                result = cursor.getInt(columnIndex);
             } else {
                 Log.e("getValueByUid", "Column " + returnType + " does not exist.");
             }

@@ -9,8 +9,8 @@
         android:id="@+id/gacha_button"
         android:layout_width="138dp"
         android:layout_height="61dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginBottom="88dp"
         android:text="Lottery"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -38,4 +38,15 @@
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rewardPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reward_points"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gacha_button"
+        app:layout_constraintVertical_bias="0.287" />
 </androidx.constraintlayout.widget.ConstraintLayout>
