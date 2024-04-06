@@ -1,6 +1,7 @@
 package com.example.milestonemate;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class Gacha extends AppCompatActivity
 {
-
+    private MyDatabase db;
     private SensorManager sensorManager;
     private SensorListener sensorListener;
     private Sensor accelerometer;
@@ -25,12 +26,15 @@ public class Gacha extends AppCompatActivity
     private TextView gachaResult;
     private Button gachaGo;
     private boolean shakeInitiated = false;
+    private TextView rewardPointsText;
+    private String uid;
 
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gacha_page);
+        db = new MyDatabase(this);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -40,6 +44,12 @@ public class Gacha extends AppCompatActivity
         gachaInfo = findViewById(R.id.gacha_info);
         gachaResult = findViewById(R.id.gacha_result);
         gachaGo = findViewById(R.id.gacha_button);
+        rewardPointsText = findViewById(R.id.rewardPoint);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        uid = sharedPreferences.getString("uid", "0");
+
+        displayRewardPoints();
 
 
         gachaGo.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +58,7 @@ public class Gacha extends AppCompatActivity
                 gachaInfo.setText("Shake Shake");
                 shakeInitiated = true;
                 sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-
+                updateRewardPoints();
             }
         });
 
@@ -80,6 +90,19 @@ public class Gacha extends AppCompatActivity
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
+    }
+
+    private void displayRewardPoints(){
+        int currentRewardPoints = db.getValueByUid(uid, Constants.REWARD_POINT);
+        String formattedText = getString(R.string.reward_points, currentRewardPoints);
+        rewardPointsText.setText(formattedText);
+    }
+
+    private void updateRewardPoints(){
+        int currentRewardPoints = db.getValueByUid(uid, Constants.REWARD_POINT);
+        currentRewardPoints -= 10;
+        db.updateRewardPointsByUid(uid, currentRewardPoints);
+        displayRewardPoints();
     }
 
 
