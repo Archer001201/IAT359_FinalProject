@@ -55,5 +55,11 @@ public class UserProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Gacha.class);
             startActivity(intent);
         });
+
+        Button playground = findViewById(R.id.playground);
+        playground.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PlaygroundActivity.class);
+            startActivity(intent);
+        });
     }
 }

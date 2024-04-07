@@ -35,6 +35,7 @@
         <activity android:name="com.example.milestonemate.UserProfileActivity" />
         <activity android:name=".DetailTodoActivity"> </activity>
         <activity android:name=".Gacha"> </activity>
+        <activity android:name="com.example.milestonemate.PlaygroundActivity" />
 
 
         <provider

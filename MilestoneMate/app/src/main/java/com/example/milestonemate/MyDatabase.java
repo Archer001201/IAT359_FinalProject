@@ -391,4 +391,90 @@ public class MyDatabase {
         cursor.close();
         return cursorCount > 0;
     }
+
+    public List<String> getItemsByUidAndType(String uid, String type){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String table = null;
+        String name = null;
+        String user = null;
+        List<String> result = new ArrayList<>();
+
+        if (type.equals(Constants.CHARACTER)){
+            table = Constants.USER_CHARACTER_TABLE;
+            name = Constants.NAME_CHARACTER;
+            user = Constants.UID_CHARACTER;
+        }
+        else{
+            table = Constants.USER_GIFT_TABLE;
+            name = Constants.NAME_GIFT;
+            user = Constants.UID_GIFT;
+        }
+
+        Cursor cursor = db.query(
+                table,
+                new String[]{name},
+                user + "=?",
+                new String[]{uid},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            try {
+                int columnIndex = cursor.getColumnIndexOrThrow(name);
+                while (cursor.moveToNext()) {
+                    result.add(cursor.getString(columnIndex));
+                }
+            } catch (IllegalArgumentException e) {
+                Log.e("getItemsByUidAndType", "Error finding column " + uid, e);
+            } finally {
+                cursor.close();
+            }
+        } else {
+            Log.e("getItemsByUidAndType", "Cursor is null or could not move to first entry.");
+        }
+
+        return result;
+    }
+
+    public List<GiftSlot> getGiftListByUid(String uid){
+        List<GiftSlot> giftSlots = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // 注意SQL语句中的空格，并使用?作为参数占位符
+        String sql = "SELECT * FROM " +
+                Constants.BANNER_TABLE + " BANNER INNER JOIN " +
+                Constants.USER_GIFT_TABLE + " USER " +
+                "ON BANNER." + Constants.ITEM_NAME + " = USER." + Constants.NAME_GIFT +
+                " WHERE USER." + Constants.UID_GIFT + " = ?";
+
+        // 使用rawQuery的第二个参数传递uid，以避免SQL注入
+        Cursor cursor = db.rawQuery(sql, new String[] {uid});
+
+        int nameIndex = cursor.getColumnIndex(Constants.NAME_GIFT);
+        int amountIndex = cursor.getColumnIndex(Constants.AMOUNT_GIFT);
+        int valueIndex = cursor.getColumnIndex(Constants.ITEM_VALUE);
+        int imageIndex = cursor.getColumnIndex(Constants.ITEM_IMAGE_ONE);
+
+        // 确保cursor不为空且有数据
+        if (cursor.moveToFirst()) {
+            do {
+                // 在这里你需要根据你的GiftSlot对象的构造函数或者setter方法来创建并填充对象
+                String name = cursor.getString(nameIndex);
+                int amount = cursor.getInt(amountIndex);
+                int value = cursor.getInt(valueIndex);
+                String image = cursor.getString(imageIndex);
+
+                // 假设GiftSlot有一个相应的构造函数或者使用setter方法设置值
+                GiftSlot slot = new GiftSlot(name, image, value, amount);
+                giftSlots.add(slot);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return giftSlots;
+    }
 }
