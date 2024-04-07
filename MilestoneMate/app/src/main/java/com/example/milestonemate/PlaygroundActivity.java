@@ -33,6 +33,10 @@ public class PlaygroundActivity extends AppCompatActivity {
     MyDatabase db;
     private ImageView characterImage;
     private String uid;
+    private RecyclerView characterRecyclerView;
+    private RecyclerView.Adapter characterAdapter;
+    private RecyclerView.LayoutManager characterLayoutManager;
+
     private List<String> characterList, giftList;
     private RecyclerView giftRecyclerView;
     private RecyclerView.Adapter giftAdapter;
@@ -62,7 +66,7 @@ public class PlaygroundActivity extends AppCompatActivity {
         characterList = db.getItemsByUidAndType(uid, Constants.CHARACTER);
         giftList = db.getItemsByUidAndType(uid, Constants.GIFT);
 
-        setupCharacterImage();
+        //setupCharacterImage();
         setupDrawer();
         displayGiftList();
 
@@ -175,8 +179,8 @@ public class PlaygroundActivity extends AppCompatActivity {
             ViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.giftImage); // 与你布局中ImageView的ID匹配
-                giftName = itemView.findViewById(R.id.giftName); // Make sure this matches the ID in your layout
-                giftAmount = itemView.findViewById(R.id.giftAmount); // Make sure this matches the ID in your layout
+                giftName = itemView.findViewById(R.id.giftName);
+                giftAmount = itemView.findViewById(R.id.giftAmount);
             }
         }
     }
