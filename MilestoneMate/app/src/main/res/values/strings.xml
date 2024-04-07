@@ -24,4 +24,7 @@
     <string name="add_a_new_todo_text">Add a New ToDo</string>
     <string name="reward_points_text">Reward Points</string>
     <string name="reward_points">Reward Points: %1$d</string>
+
+    <item name="gift_name" type="id"/>
+    <item name="gift_value" type="id"/>
 </resources>

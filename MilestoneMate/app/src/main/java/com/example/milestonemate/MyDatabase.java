@@ -515,4 +515,70 @@ public class MyDatabase {
 
         return slots;
     }
+
+    public float getRelationshipByUidAndName(String uid, String name){
+        float result = 0f;
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                Constants.USER_CHARACTER_TABLE,
+                new String[] {Constants.RELATIONSHIP},
+                Constants.UID_CHARACTER + "=? AND " +
+                        Constants.NAME_CHARACTER + "=?",
+                new String[] {uid, name},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(Constants.RELATIONSHIP);
+            if (columnIndex != -1) {
+                result = cursor.getFloat(columnIndex);
+            } else {
+                Log.e("getRelationshipByUidAndName", "Column " + Constants.ITEM_NAME + " does not exist.");
+            }
+            cursor.close();
+        } else {
+            Log.e("getRelationshipByUidAndName", "No entry matches the given " + uid + ".");
+        }
+
+        return result;
+    }
+
+    public void updateRelationship(String uid, String name, int deltaValue, boolean isAdding){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String selection = Constants.UID_CHARACTER + "=? AND " + Constants.NAME_CHARACTER + "=?";
+        String[] selectionArgs = {uid, name};
+        float result = 0f;
+        Cursor cursor = db.query(
+                Constants.USER_CHARACTER_TABLE,
+                new String[]{Constants.RELATIONSHIP},
+                selection,
+                selectionArgs,
+                null,null,null
+        );
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(Constants.RELATIONSHIP);
+            if (columnIndex != -1) {
+                result = cursor.getFloat(columnIndex);
+            } else {
+                Log.e("updateRelationship", "Column " + Constants.ITEM_NAME + " does not exist.");
+            }
+            cursor.close();
+        } else {
+            Log.e("updateRelationship", "No entry matches the given " + uid + ".");
+        }
+        float value = 0f;
+        if (isAdding){
+            value = result + deltaValue;
+        }
+        else{
+            value = result - deltaValue;
+        }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.RELATIONSHIP, value);
+        db.update(Constants.USER_CHARACTER_TABLE, contentValues, selection, selectionArgs);
+    }
 }

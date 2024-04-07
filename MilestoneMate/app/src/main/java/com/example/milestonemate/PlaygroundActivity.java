@@ -7,6 +7,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -45,6 +46,8 @@ public class PlaygroundActivity extends AppCompatActivity {
     private RecyclerView drawerList;
     private ArrayAdapter<String> drawerAdapter;
     private Button button;
+    private TextView relationshipView;
+    private String currentCharacter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class PlaygroundActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 //        drawerList = findViewById(R.id.left_drawer);
         button = findViewById(R.id.button);
+        relationshipView = findViewById(R.id.relationship);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "0");
@@ -82,17 +86,46 @@ public class PlaygroundActivity extends AppCompatActivity {
 
     private void setupCharacterImage() {
         if (characterList.size() > 0) {
-            String characterImagePath = db.getItemImageByName(characterList.get(0), Constants.ITEM_IMAGE_ONE);
-            try {
-                AssetManager assetManager = getAssets();
-                InputStream is = assetManager.open(characterImagePath);
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                characterImage.setImageBitmap(bitmap);
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            currentCharacter = characterList.get(0);
+            String characterImagePath = db.getItemImageByName(currentCharacter, Constants.ITEM_IMAGE_ONE);
+//            try {
+//                AssetManager assetManager = getAssets();
+//                InputStream is = assetManager.open(characterImagePath);
+//                Bitmap bitmap = BitmapFactory.decodeStream(is);
+//                characterImage.setImageBitmap(bitmap);
+//                is.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            loadImage(characterImage, characterImagePath);
+            relationshipView.setText(String.valueOf(db.getRelationshipByUidAndName(uid, currentCharacter)));
         }
+    }
+
+    public static void setupCharacterImage(Context context, ImageView image, CharacterSlot slot) {
+//        if (characterList.size() > 0) {
+//            String characterImagePath = db.getItemImageByName(characterList.get(0), Constants.ITEM_IMAGE_ONE);
+//            try {
+//                AssetManager assetManager = getAssets();
+//                InputStream is = assetManager.open(characterImagePath);
+//                Bitmap bitmap = BitmapFactory.decodeStream(is);
+//                characterImage.setImageBitmap(bitmap);
+//                is.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            AssetManager assetManager = context.getAssets();
+//            InputStream is = assetManager.open(slot.getImagePath());
+//            Bitmap bitmap = BitmapFactory.decodeStream(is);
+//            image.setImageBitmap(bitmap);
+//            is.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
     }
 
 //    private void setupDrawer() {
@@ -125,7 +158,29 @@ public class PlaygroundActivity extends AppCompatActivity {
         characterRecyclerView.setHasFixedSize(true);
         characterLayoutManager = new LinearLayoutManager(this);
         characterRecyclerView.setLayoutManager(characterLayoutManager);
-        characterAdapter = new CharacterRecyclerView(characterSlots, this);
+        characterAdapter = new CharacterRecyclerView(characterSlots, this, new CharacterRecyclerView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(String characterName) {
+                Log.d("TAG", "onItemClick: " + characterName);
+                currentCharacter = characterName;
+                String imagePath = db.getItemImageByName(characterName, Constants.ITEM_IMAGE_ONE);
+
+//                try {
+//                    // 获取AssetManager
+//                    AssetManager assetManager = getAssets();
+//                    // 从assets目录读取图片
+//                    InputStream is = assetManager.open(imagePath);
+//                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+//                    characterImage.setImageBitmap(bitmap);
+//                } catch (IOException e) {
+//                    // 处理异常，例如文件未找到
+//                    e.printStackTrace();
+//                }
+                loadImage(characterImage, imagePath);
+                relationshipView.setText(String.valueOf(db.getRelationshipByUidAndName(uid, characterName)));
+            }
+        });
         characterRecyclerView.setAdapter(characterAdapter);
     }
 
@@ -165,6 +220,9 @@ public class PlaygroundActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            holder.imageView.setTag(R.id.gift_name,slot.getName());
+            holder.imageView.setTag(R.id.gift_value, slot.getValue());
+
             // 为imageView设置触摸监听器以启动拖动操作
             holder.imageView.setOnTouchListener((view, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -196,9 +254,6 @@ public class PlaygroundActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     class MyDragListener implements View.OnDragListener {
         @Override
         public boolean onDrag(View v, DragEvent event) {
@@ -206,11 +261,30 @@ public class PlaygroundActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     //具体的判定逻辑
                     View view = (View) event.getLocalState();
-                    //view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
+//                    Log.d("TAG", "onDrag: drop down " + view.getTag());
+//                    view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
+                    db.updateGiftTable(uid,view.getTag(R.id.gift_name).toString(),false);
+                    displayGiftList();
+                    db.updateRelationship(uid, currentCharacter, (Integer) view.getTag(R.id.gift_value),true);
+                    relationshipView.setText(String.valueOf(db.getRelationshipByUidAndName(uid, currentCharacter)));
                     break;
                 // 可以根据需要处理其他事件
             }
             return true;
+        }
+    }
+
+    private void loadImage(ImageView image, String path){
+        try {
+            // 获取AssetManager
+            AssetManager assetManager = getAssets();
+            // 从assets目录读取图片
+            InputStream is = assetManager.open(path);
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            image.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            // 处理异常，例如文件未找到
+            e.printStackTrace();
         }
     }
 }
