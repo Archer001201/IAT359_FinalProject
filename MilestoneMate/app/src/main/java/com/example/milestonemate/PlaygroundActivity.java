@@ -42,7 +42,7 @@ public class PlaygroundActivity extends AppCompatActivity {
     private RecyclerView.Adapter giftAdapter;
     private RecyclerView.LayoutManager giftLayoutManager;
     private DrawerLayout drawerLayout;
-    private ListView drawerList;
+    private RecyclerView drawerList;
     private ArrayAdapter<String> drawerAdapter;
     private Button button;
 
@@ -53,12 +53,13 @@ public class PlaygroundActivity extends AppCompatActivity {
         db = new MyDatabase(this);
 
         giftRecyclerView = findViewById(R.id.giftList);
+        characterRecyclerView = findViewById(R.id.characterList);
 
         characterImage = findViewById(R.id.characterImage);
         characterImage.setOnDragListener(new MyDragListener());
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        drawerList = findViewById(R.id.left_drawer);
+//        drawerList = findViewById(R.id.left_drawer);
         button = findViewById(R.id.button);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -66,14 +67,15 @@ public class PlaygroundActivity extends AppCompatActivity {
         characterList = db.getItemsByUidAndType(uid, Constants.CHARACTER);
         giftList = db.getItemsByUidAndType(uid, Constants.GIFT);
 
-        //setupCharacterImage();
-        setupDrawer();
+        setupCharacterImage();
+//        setupDrawer();
         displayGiftList();
+        displayCharacterList();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(drawerList);
+                drawerLayout.openDrawer(characterRecyclerView);
             }
         });
     }
@@ -93,17 +95,17 @@ public class PlaygroundActivity extends AppCompatActivity {
         }
     }
 
-    private void setupDrawer() {
-        // 示例数据，替换为您自己的抽屉列表项
-        String[] drawerItems = new String[]{"Item 1", "Item 2", "Item 3"};
-        drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerItems);
-        drawerList.setAdapter(drawerAdapter);
-        // 为抽屉列表项设置点击监听器
-        drawerList.setOnItemClickListener((parent, view, position, id) -> {
-            // TODO: 在这里处理点击事件
-            drawerLayout.closeDrawer(drawerList);
-        });
-    }
+//    private void setupDrawer() {
+//        // 示例数据，替换为您自己的抽屉列表项
+//        String[] drawerItems = new String[]{"Item 1", "Item 2", "Item 3"};
+//        drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerItems);
+//        drawerList.setAdapter(drawerAdapter);
+//        // 为抽屉列表项设置点击监听器
+//        drawerList.setOnItemClickListener((parent, view, position, id) -> {
+//            // TODO: 在这里处理点击事件
+//            drawerLayout.closeDrawer(drawerList);
+//        });
+//    }
 
     private void displayGiftList() {
         List<GiftSlot> giftSlots = db.getGiftListByUid(uid);
@@ -116,6 +118,15 @@ public class PlaygroundActivity extends AppCompatActivity {
         // 使用自定义适配器 GiftAdapter 替换原来的 GiftRecyclerView
         giftAdapter = new GiftAdapter(this, giftSlots); // 传递this作为context
         giftRecyclerView.setAdapter(giftAdapter);
+    }
+
+    private void displayCharacterList(){
+        List<CharacterSlot> characterSlots = db.getCharactersByUid(uid);
+        characterRecyclerView.setHasFixedSize(true);
+        characterLayoutManager = new LinearLayoutManager(this);
+        characterRecyclerView.setLayoutManager(characterLayoutManager);
+        characterAdapter = new CharacterRecyclerView(characterSlots, this);
+        characterRecyclerView.setAdapter(characterAdapter);
     }
 
     class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.ViewHolder> {

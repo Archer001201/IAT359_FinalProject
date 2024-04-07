@@ -478,4 +478,41 @@ public class MyDatabase {
 
         return giftSlots;
     }
+
+    public List<CharacterSlot> getCharactersByUid(String uid){
+        List<CharacterSlot> slots = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        // 注意SQL语句中的空格，并使用?作为参数占位符
+        String sql = "SELECT * FROM " +
+                Constants.BANNER_TABLE + " BANNER INNER JOIN " +
+                Constants.USER_CHARACTER_TABLE + " USER " +
+                "ON BANNER." + Constants.ITEM_NAME + " = USER." + Constants.NAME_CHARACTER +
+                " WHERE USER." + Constants.UID_CHARACTER + " = ?";
+
+        // 使用rawQuery的第二个参数传递uid，以避免SQL注入
+        Cursor cursor = db.rawQuery(sql, new String[] {uid});
+
+        int nameIndex = cursor.getColumnIndex(Constants.NAME_CHARACTER);
+        int imageIndex = cursor.getColumnIndex(Constants.ITEM_IMAGE_ONE);
+
+        // 确保cursor不为空且有数据
+        if (cursor.moveToFirst()) {
+            do {
+                // 在这里你需要根据你的GiftSlot对象的构造函数或者setter方法来创建并填充对象
+                String name = cursor.getString(nameIndex);
+
+                String image = cursor.getString(imageIndex);
+
+                // 假设GiftSlot有一个相应的构造函数或者使用setter方法设置值
+                CharacterSlot slot = new CharacterSlot(name, image);
+                slots.add(slot);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return slots;
+    }
 }
