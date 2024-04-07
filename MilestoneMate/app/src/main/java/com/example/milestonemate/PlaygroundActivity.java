@@ -222,6 +222,7 @@ public class PlaygroundActivity extends AppCompatActivity {
 
             holder.imageView.setTag(R.id.gift_name,slot.getName());
             holder.imageView.setTag(R.id.gift_value, slot.getValue());
+            holder.imageView.setTag(R.id.gift_amount, slot.getAmount());
 
             // 为imageView设置触摸监听器以启动拖动操作
             holder.imageView.setOnTouchListener((view, motionEvent) -> {
@@ -261,6 +262,7 @@ public class PlaygroundActivity extends AppCompatActivity {
                 case DragEvent.ACTION_DROP:
                     //具体的判定逻辑
                     View view = (View) event.getLocalState();
+                    if ((Integer)view.getTag(R.id.gift_amount) < 1) break;
 //                    Log.d("TAG", "onDrag: drop down " + view.getTag());
 //                    view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
                     db.updateGiftTable(uid,view.getTag(R.id.gift_name).toString(),false);

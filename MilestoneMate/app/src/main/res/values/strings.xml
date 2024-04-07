@@ -27,4 +27,5 @@
 
     <item name="gift_name" type="id"/>
     <item name="gift_value" type="id"/>
+    <item name="gift_amount" type="id"/>
 </resources>

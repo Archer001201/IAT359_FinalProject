@@ -68,6 +68,7 @@ public class Gacha extends AppCompatActivity
             public void onClick(View v) {
                 gachaResult.setText("");
                 itemImage.setImageDrawable(null);
+                if (db.getValueByUid(uid, Constants.REWARD_POINT) < 10) return;
                 gachaInfo.setText("Shake Shake");
                 shakeInitiated = true;
                 sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);

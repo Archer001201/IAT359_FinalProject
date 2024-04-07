@@ -49,8 +49,4 @@ public class Constants {
     public static final String UID_GIFT = "uid_gift";
     public static final String NAME_GIFT = "name_gift";
     public static final String AMOUNT_GIFT = "amount_gift";
-
-    //Constants of gift view tags
-    public static final int NAME = 1;
-    public static final int VALUE = 2;
 }
