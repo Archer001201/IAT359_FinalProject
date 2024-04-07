@@ -1,7 +1,9 @@
 package com.example.milestonemate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -18,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.Manifest;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -45,7 +48,7 @@ public class DetailTodoActivity extends AppCompatActivity
     private Button deleteButton, submitButton;
     private ImageButton cameraButton;
 
-    private EditText describeText;
+    private TextView describeText;
 
     private ImageView imageView;
     private String imagePath;
@@ -63,7 +66,7 @@ public class DetailTodoActivity extends AppCompatActivity
 
         imageView = findViewById(R.id.imageView3);
 
-        describeText = findViewById(R.id.todo_detail_info_description);
+        describeText = findViewById(R.id.todo_info);
 
 
         Intent intent = getIntent();
@@ -118,8 +121,10 @@ public class DetailTodoActivity extends AppCompatActivity
         });
 
         deleteButton.setOnClickListener(v -> {
-            db.deleteTodoById(id);
-            goToMainActivity();
+            //db.deleteTodoById(id);
+            //goToMainActivity();
+            showDeleteConfirmationDialog();
+
         });
     }
 
@@ -229,6 +234,35 @@ public class DetailTodoActivity extends AppCompatActivity
             updateImageView(imagePath);
         }
     }
+
+    private void showDeleteConfirmationDialog() {
+        // 创建AlertDialog.Builder实例
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this todo?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { // 将参数名从id更改为which
+                // 用户确认删除，执行删除操作
+                db.deleteTodoById(DetailTodoActivity.this.id); // 明确使用DetailTodoActivity的id成员变量
+                // 跳转到主界面
+                goToMainActivity();
+                // 提示信息
+                Toast.makeText(DetailTodoActivity.this, "Todo deleted successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // 用户取消删除，关闭对话框，不进行任何操作
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // 创建并显示AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 
 }

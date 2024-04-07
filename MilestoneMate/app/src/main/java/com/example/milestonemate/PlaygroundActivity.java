@@ -189,9 +189,7 @@ public class PlaygroundActivity extends AppCompatActivity {
         public boolean onDrag(View v, DragEvent event) {
             switch (event.getAction()) {
                 case DragEvent.ACTION_DROP:
-                    // 当图片拖放到characterImage上时执行的操作
-                    // 例如：隐藏拖动的视图或更新数据库等
-                    // 这里可以实现具体的判定逻辑
+                    //具体的判定逻辑
                     View view = (View) event.getLocalState();
                     //view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
                     break;

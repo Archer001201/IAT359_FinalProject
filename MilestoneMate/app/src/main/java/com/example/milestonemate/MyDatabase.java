@@ -122,12 +122,13 @@ public class MyDatabase {
         db.update(Constants.USER_TABLE, contentValues, selection, selectionArgs);
     }
 
-    public void addNewTodo(String uid, String title, String dueDate){
+    public void addNewTodo(String uid, String title, String dueDate, String description){
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.TODO_TITLE, title);
         contentValues.put(Constants.DUE_DATE, dueDate);
+        contentValues.put(Constants.TODO_DESCRIPTION, description);
         contentValues.put(Constants.TODO_UID, Integer.parseInt(uid));
         contentValues.put(Constants.TODO_STATE, Constants.INCOMPLETE);
         db.insert(Constants.TODO_TABLE, null, contentValues);

@@ -5,6 +5,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <EditText
+        android:id="@+id/addNewDetail"
+        android:layout_width="323dp"
+        android:layout_height="141dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="488dp"
+        android:ems="10"
+        android:inputType="text"
+
+
+        android:paddingVertical="15dp"
+        android:text="@string/user_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill,LabelFor" />
+
     <TextView
         android:id="@+id/addNewTodoText"
         android:layout_width="wrap_content"
@@ -38,13 +54,24 @@
         tools:ignore="Autofill,LabelFor" />
 
     <TextView
+        android:id="@+id/dateExText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="28dp"
+        android:text="YYYY-MM-DD"
+        app:layout_constraintBottom_toTopOf="@+id/dueDate"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/due_data_text"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="@+id/title" />
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <EditText
         android:id="@+id/dueDate"
@@ -52,19 +79,24 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
-        android:text="@string/due_date_input"
-        app:layout_constraintTop_toBottomOf="@id/dateText"
-        app:layout_constraintStart_toStartOf="@id/dateText"
         android:paddingVertical="15dp"
+        android:text="@string/due_date_input"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/dateText"
+        app:layout_constraintTop_toBottomOf="@id/dateText"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="Autofill,LabelFor" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:layout_marginEnd="4dp"
         android:text="@string/submit_button"
         app:layout_constraintEnd_toEndOf="@id/dueDate"
-        app:layout_constraintTop_toBottomOf="@id/dueDate"
-        android:layout_marginTop="30dp"/>
+        app:layout_constraintTop_toBottomOf="@id/dueDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
