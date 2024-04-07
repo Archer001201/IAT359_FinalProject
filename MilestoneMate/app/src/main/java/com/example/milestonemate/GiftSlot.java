@@ -20,4 +20,8 @@ public class GiftSlot {
     public int getValue(){return value;}
 
     public int getAmount(){return amount;}
+
+    public int getImageResourceId() {
+        return 0;
+    }
 }
