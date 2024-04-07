@@ -221,4 +221,174 @@ public class MyDatabase {
         String[] selectionArgs = { id };
         db.delete(Constants.TODO_TABLE, selection, selectionArgs);
     }
+
+    public List<String> getItemNameByType(String type){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        List<String> items = new ArrayList<>();
+
+        Cursor cursor = db.query(
+                Constants.BANNER_TABLE,
+                new String[]{Constants.ITEM_NAME},
+                Constants.ITEM_TYPE + "=?",
+                new String[]{type},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null) {
+            try {
+                int columnIndex = cursor.getColumnIndexOrThrow(Constants.ITEM_NAME);
+                while (cursor.moveToNext()) {
+                    items.add(cursor.getString(columnIndex));
+                }
+            } catch (IllegalArgumentException e) {
+                Log.e("getItemNameByType", "Error finding column " + Constants.ITEM_NAME, e);
+            } finally {
+                cursor.close();
+            }
+        } else {
+            Log.e("getItemNameByType", "Cursor is null or could not move to first entry.");
+        }
+
+        return items;
+    }
+
+    public String getItemImageByName(String name, String imageType){
+        SQLiteDatabase db = helper.getReadableDatabase();
+//        List<String> items = new ArrayList<>();
+        String result = null;
+
+        Cursor cursor = db.query(
+                Constants.BANNER_TABLE,
+                new String[]{imageType},
+                Constants.ITEM_NAME + "=?",
+                new String[]{name},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(imageType);
+            if (columnIndex != -1) {
+                result = cursor.getString(columnIndex);
+            } else {
+                Log.e("getItemImageByName", "Column " + Constants.ITEM_NAME + " does not exist.");
+            }
+            cursor.close();
+        } else {
+            Log.e("getItemImageByName", "No entry matches the given " + name + ".");
+        }
+
+        return result;
+    }
+
+    public void updateGiftTable(String uid, String giftName, boolean isAdding){
+        if (checkGiftExists(uid, giftName)){
+            //update amount
+            int giftAmount = getGiftAmount(uid, giftName);
+            if (isAdding) giftAmount ++;
+            else giftAmount --;
+
+            SQLiteDatabase db = helper.getReadableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.AMOUNT_GIFT, giftAmount);
+
+            String selection = Constants.UID_GIFT + "=? AND " + Constants.NAME_GIFT + "=?";
+            String[] selectionArgs = {uid, giftName};
+
+            db.update(Constants.USER_GIFT_TABLE, contentValues, selection, selectionArgs);
+        }
+        else{
+            //insert gift
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.UID_GIFT, uid);
+            contentValues.put(Constants.NAME_GIFT, giftName);
+            contentValues.put(Constants.AMOUNT_GIFT, 1);
+            db.insert(Constants.USER_GIFT_TABLE, null, contentValues);
+        }
+    }
+
+    public int getGiftAmount(String uid, String giftName){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        int result = 0;
+        Cursor cursor = db.query(
+                Constants.USER_GIFT_TABLE,
+                new String[]{Constants.AMOUNT_GIFT},
+                Constants.UID_GIFT + "=? AND " + Constants.NAME_GIFT + "=?",
+                new String[]{uid, giftName},
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex(Constants.AMOUNT_GIFT);
+            if (columnIndex != -1) {
+                result = cursor.getInt(columnIndex);
+            } else {
+                Log.e("getGiftAmount", "Column " + Constants.ITEM_NAME + " does not exist.");
+            }
+            cursor.close();
+        } else {
+            Log.e("getGiftAmount", "No entry matches the given " + uid + ".");
+        }
+
+        return result;
+    }
+
+    public boolean checkGiftExists(String uid, String giftName){
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                Constants.USER_GIFT_TABLE,
+                null,
+                Constants.UID_GIFT + "=? AND " + Constants.NAME_GIFT + "=?",
+                new String[]{uid, giftName},
+                null,
+                null,
+                null
+        );
+
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        return cursorCount > 0;
+    }
+
+    public void insertCharacter(String uid, String characterName){
+        if (checkCharacterExists(uid, characterName)){
+            updateGiftTable(uid, "Potion Love", true);
+        }
+        else{
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.UID_CHARACTER, uid);
+            contentValues.put(Constants.NAME_CHARACTER, characterName);
+            contentValues.put(Constants.RELATIONSHIP, 50);
+
+            db.insert(Constants.USER_CHARACTER_TABLE, null, contentValues);
+        }
+    }
+
+    public boolean checkCharacterExists(String uid, String characterName){
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                Constants.USER_CHARACTER_TABLE,
+                null,
+                Constants.UID_CHARACTER + "=? AND " + Constants.NAME_CHARACTER + "=?",
+                new String[]{uid, characterName},
+                null,
+                null,
+                null
+        );
+
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        return cursorCount > 0;
+    }
 }

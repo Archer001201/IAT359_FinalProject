@@ -2,17 +2,25 @@ package com.example.milestonemate;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Random;
 
 public class Gacha extends AppCompatActivity
@@ -24,10 +32,12 @@ public class Gacha extends AppCompatActivity
 
     private TextView gachaInfo;
     private TextView gachaResult;
+    private ImageView itemImage;
     private Button gachaGo;
     private boolean shakeInitiated = false;
     private TextView rewardPointsText;
     private String uid;
+    private final float characterProbability = 0.3f;
 
 
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +55,7 @@ public class Gacha extends AppCompatActivity
         gachaResult = findViewById(R.id.gacha_result);
         gachaGo = findViewById(R.id.gacha_button);
         rewardPointsText = findViewById(R.id.rewardPoint);
+        itemImage = findViewById(R.id.itemImage);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "0");
@@ -55,6 +66,8 @@ public class Gacha extends AppCompatActivity
         gachaGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gachaResult.setText("");
+                itemImage.setImageDrawable(null);
                 gachaInfo.setText("Shake Shake");
                 shakeInitiated = true;
                 sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
@@ -78,9 +91,49 @@ public class Gacha extends AppCompatActivity
                 if (acceleration > 4) { //根据需要调整
                     shakeInitiated = false;
                     sensorManager.unregisterListener(this);
-                    int randomNumber = new Random().nextInt(5) + 1;
-                    gachaResult.setText(String.valueOf(randomNumber));
+
+                    float randNum_1 = new Random().nextFloat();
+                    String type = Constants.GIFT;
+                    if (randNum_1 <= characterProbability){
+                        type = Constants.CHARACTER;
+                    }
+                    List<String> items = db.getItemNameByType(type);
+                    Log.d("TAG", "onSensorChanged item size: " + items.size());
+
+                    int randNum_2 = new Random().nextInt(items.size());
+                    String result = items.get(randNum_2);
+                    String imagePath = db.getItemImageByName(result, Constants.ITEM_IMAGE_ONE);
+                    Log.d("TAG", "onSensorChanged: " + imagePath);
+
+                    try {
+                        // 获取AssetManager
+                        AssetManager assetManager = getAssets();
+
+                        // 从assets目录下打开图片文件流
+                        InputStream is = assetManager.open(imagePath);
+
+                        // 使用BitmapFactory从InputStream创建Bitmap
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                        // 设置Bitmap到ImageView
+                        itemImage.setImageBitmap(bitmap);
+
+                        // 关闭InputStream
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // 处理异常，可能是文件未找到等情况
+                    }
+
+                    gachaResult.setText(result);
                     gachaInfo.setText("Congratulations");
+
+                    if (type.equals(Constants.CHARACTER)){
+                        db.insertCharacter(uid, result);
+                    }
+                    else{
+                        db.updateGiftTable(uid,result,true);
+                    }
                 }
             }
 
