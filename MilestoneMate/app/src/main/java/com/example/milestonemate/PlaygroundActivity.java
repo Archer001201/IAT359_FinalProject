@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -132,6 +133,10 @@ public class PlaygroundActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull GiftAdapter.ViewHolder holder, int position) {
             GiftSlot slot = giftSlots.get(position);
+
+            // 设置文本
+            holder.giftName.setText(slot.getName());
+            holder.giftAmount.setText(String.valueOf(slot.getAmount()));
             // 加载图片
             try {
                 // 获取AssetManager
@@ -164,10 +169,14 @@ public class PlaygroundActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView; // 确保变量名称与你的使用保持一致
+            TextView giftName; // TextView for the name
+            TextView giftAmount; // TextView for the amount
 
             ViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.giftImage); // 与你布局中ImageView的ID匹配
+                giftName = itemView.findViewById(R.id.giftName); // Make sure this matches the ID in your layout
+                giftAmount = itemView.findViewById(R.id.giftAmount); // Make sure this matches the ID in your layout
             }
         }
     }
@@ -184,7 +193,7 @@ public class PlaygroundActivity extends AppCompatActivity {
                     // 例如：隐藏拖动的视图或更新数据库等
                     // 这里可以实现具体的判定逻辑
                     View view = (View) event.getLocalState();
-                    view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
+                    //view.setVisibility(View.INVISIBLE); // 或者执行其他逻辑
                     break;
                 // 可以根据需要处理其他事件
             }
