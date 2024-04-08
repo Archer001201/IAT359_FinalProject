@@ -89,6 +89,18 @@ public class DetailTodoActivity extends AppCompatActivity
         submitButton = findViewById(R.id.todo_detail_info_submit_stateChange);
         deleteButton = findViewById(R.id.todo_delete_button);
 
+        ImageButton playGroundButton = findViewById(R.id.playground);
+        playGroundButton.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, PlaygroundActivity.class);
+            startActivity(intent1);
+        });
+
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, UserProfileActivity.class);
+            startActivity(intent1);
+        });
+
         //Set camera launcher
         takePictureLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -126,6 +138,8 @@ public class DetailTodoActivity extends AppCompatActivity
             showDeleteConfirmationDialog();
 
         });
+
+
     }
 
     private void addRewardPoints(){

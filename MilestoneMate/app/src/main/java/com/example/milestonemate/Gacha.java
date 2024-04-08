@@ -1,6 +1,7 @@
 package com.example.milestonemate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,6 +80,18 @@ public class Gacha extends AppCompatActivity
                 sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
                 updateRewardPoints();
             }
+        });
+
+        ImageButton mainButton = findViewById(R.id.mainButton);
+        mainButton.setOnClickListener(v -> {
+            Intent intent  = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            startActivity(intent);
         });
 
     }

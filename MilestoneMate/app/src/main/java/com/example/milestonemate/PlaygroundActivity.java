@@ -2,6 +2,7 @@ package com.example.milestonemate;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -81,6 +83,24 @@ public class PlaygroundActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerLayout.openDrawer(characterRecyclerView);
             }
+        });
+
+        ImageButton mainButton = findViewById(R.id.mainButton);
+        mainButton.setOnClickListener(v -> {
+            Intent intent  = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            startActivity(intent);
+        });
+
+        Button gaChaForward = findViewById(R.id.gaCha_trans);
+        gaChaForward.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Gacha.class);
+            startActivity(intent);
         });
     }
 

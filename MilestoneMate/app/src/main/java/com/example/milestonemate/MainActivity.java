@@ -111,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        ImageButton playGroundButton = findViewById(R.id.playground);
+        playGroundButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PlaygroundActivity.class);
+            startActivity(intent);
+        });
+
         DisplayTodoList();
     }
 

@@ -44,19 +44,15 @@ public class UserProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        ImageButton calendarButton = findViewById(R.id.calendarButton);
-        calendarButton.setOnClickListener(v -> {
+        ImageButton mainButton = findViewById(R.id.mainButton);
+        mainButton.setOnClickListener(v -> {
             Intent intent  = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
 
-        Button gaChaForward = findViewById(R.id.GaCha);
-        gaChaForward.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Gacha.class);
-            startActivity(intent);
-        });
 
-        Button playground = findViewById(R.id.playground);
+
+        ImageButton playground = findViewById(R.id.playground);
         playground.setOnClickListener(v -> {
             Intent intent = new Intent(this, PlaygroundActivity.class);
             startActivity(intent);

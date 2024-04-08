@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,5 +48,18 @@ public class AddNewTodoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageButton playGroundButton = findViewById(R.id.playground);
+        playGroundButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PlaygroundActivity.class);
+            startActivity(intent);
+        });
+
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
