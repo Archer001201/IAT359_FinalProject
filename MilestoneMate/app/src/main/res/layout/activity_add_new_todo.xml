@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/addnew"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -52,11 +52,11 @@
 
     <EditText
         android:id="@+id/addNewDetail"
-        android:layout_width="323dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="420dp"
-        android:background=""
+        android:layout_width="290dp"
+        android:layout_height="182dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="416dp"
+        android:background="@drawable/textbox"
         android:ems="0"
         android:inputType="text"
 
@@ -124,6 +124,7 @@
 
     <EditText
         android:id="@+id/dueDate"
+        android:background="@drawable/textboard"
         android:layout_width="288dp"
         android:layout_height="41dp"
         android:layout_marginTop="4dp"
@@ -141,10 +142,11 @@
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="664dp"
-        android:layout_marginEnd="168dp"
+        android:layout_width="282dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="668dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/button"
         android:text="@string/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
