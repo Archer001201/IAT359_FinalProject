@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="android:statusBarColor">@android:color/white</item>
+    </style>
+</resources>

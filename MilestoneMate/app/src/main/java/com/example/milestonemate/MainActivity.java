@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         //Display welcome message and username
         TextView welcomeTextView = findViewById(R.id.welcomeText);
         String username = sharedPreferences.getString("username", "username");
-        welcomeTextView.setText(getString(R.string.welcome_text, username));
+        //welcomeTextView.setText(getString(R.string.welcome_text, username));
 
         //Listen click event on Add New button
         Button addNewButton = findViewById(R.id.addNewButton);

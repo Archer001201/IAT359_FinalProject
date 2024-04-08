@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/first"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -10,29 +11,35 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="444dp"
         android:text="@string/title"
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:textSize="26sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/enterLoginButton"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:text="@string/log_in_text"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:layout_marginTop="50dp"/>
+        android:id="@+id/enterSignupButton"
+        android:layout_width="288dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="516dp"
+        android:background="@drawable/button"
+        android:text="@string/sign_up_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/enterSignupButton"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:text="@string/sign_up_text"
-        app:layout_constraintStart_toStartOf="@+id/enterLoginButton"
-        app:layout_constraintTop_toBottomOf="@id/enterLoginButton"
-        android:layout_marginTop="50dp"/>
+        android:id="@+id/enterLoginButton"
+        android:layout_width="288dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="584dp"
+        android:background="@drawable/button"
+        android:text="@string/log_in_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

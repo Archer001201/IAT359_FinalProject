@@ -4,68 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_text"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="44dp"
         android:text="Hello World!"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@id/welcomeText"
-        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Today,"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.288"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/todoListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="220dp"
-        android:text="@string/today_todo"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="200dp"
+        android:text="What To Do"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@id/dateText"
-        app:layout_constraintTop_toBottomOf="@id/dateText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todoList"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="@id/todoListText"
-        app:layout_constraintTop_toBottomOf="@id/todoListText" />
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="240dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/addNewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="@string/add_new_todo_button"
-        app:layout_constraintBottom_toBottomOf="@id/todoListText"
-        app:layout_constraintStart_toEndOf="@id/todoListText" />
+        android:layout_width="123dp"
+        android:layout_height="36dp"
+        android:background="@drawable/button1"
+        android:text="+ Add New"
+        android:textColor="@color/main_add_new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.257" />
 
     <RadioGroup
         android:id="@+id/radioGroupDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="92dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
@@ -73,12 +83,12 @@
             android:layout_height="wrap_content"
             android:text="Sort By Date" />
 
+
         <RadioButton
             android:id="@+id/date_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="All" />
-
 
         <RadioButton
             android:id="@+id/date_today"
@@ -97,9 +107,13 @@
         android:id="@+id/radioGroupState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="140dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioGroupDate"
-        app:layout_constraintTop_toTopOf="@+id/radioGroupDate">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/radioStateText"
@@ -128,14 +142,46 @@
 
     <ImageButton
         android:id="@+id/profileButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:background="#3571D8"
-        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:background="@drawable/profile"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.864"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_launcher_foreground" />
+        app:layout_constraintVertical_bias="0.971" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/playground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginStart="205dp"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
