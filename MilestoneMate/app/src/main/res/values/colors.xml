@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="main_add_new">#6750A4</color>
+    <color name="gacha_text">#7A7A7A</color>
 </resources>
