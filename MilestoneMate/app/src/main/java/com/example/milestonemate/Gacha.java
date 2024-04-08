@@ -31,7 +31,7 @@ public class Gacha extends AppCompatActivity
     private Sensor accelerometer;
 
     private TextView gachaInfo;
-    private TextView gachaResult;
+    private TextView gachaResult, gaChaResult;
     private ImageView itemImage;
     private Button gachaGo;
     private boolean shakeInitiated = false;
@@ -52,10 +52,12 @@ public class Gacha extends AppCompatActivity
 
 
         gachaInfo = findViewById(R.id.gacha_info);
+        gaChaResult = findViewById(R.id.gaCha_describe);
         gachaResult = findViewById(R.id.gacha_result);
         gachaGo = findViewById(R.id.gacha_button);
         rewardPointsText = findViewById(R.id.rewardPoint);
         itemImage = findViewById(R.id.itemImage);
+        itemImage.setImageResource(R.drawable.gachaex);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "0");
@@ -70,6 +72,8 @@ public class Gacha extends AppCompatActivity
                 itemImage.setImageDrawable(null);
                 if (db.getValueByUid(uid, Constants.REWARD_POINT) < 10) return;
                 gachaInfo.setText("Shake Shake");
+                gaChaResult.setText("Shake to explore a new character or item!");
+                itemImage.setImageResource(R.drawable.shake);
                 shakeInitiated = true;
                 sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
                 updateRewardPoints();
