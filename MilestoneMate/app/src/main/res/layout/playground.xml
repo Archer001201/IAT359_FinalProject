@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,6 +11,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/loginText"
+            android:layout_width="257dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="52dp"
+            android:text="Playground"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -40,7 +56,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="180dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/main1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -57,32 +73,24 @@
 
         <ImageView
             android:id="@+id/characterImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="338dp"
+            android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.317"
+            app:layout_constraintVertical_bias="0.419"
             tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/relationship"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="112dp"
-            android:layout_marginBottom="56dp"
-            android:text="relationship"
-            app:layout_constraintBottom_toTopOf="@+id/characterImage"
-            app:layout_constraintStart_toStartOf="@+id/characterImage" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/giftList"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:background="@color/gift"
+            android:layout_width="417dp"
+            android:layout_height="130dp"
             android:layout_marginBottom="80dp"
             android:orientation="horizontal"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -90,25 +98,72 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Button"
+            android:layout_width="129dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="160dp"
+            android:background="@drawable/button1"
+            android:text="Characters"
+            android:textColor="@color/main_add_new"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="584dp"
+            android:text="Relationship:"
+            android:textColor="@color/main_add_new"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="28dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="584dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/love" />
+
+        <TextView
+            android:id="@+id/relationship"
+            android:layout_width="39dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="4dp"
+            android:text="130"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+        <Button
+            android:id="@+id/gaCha_trans"
+            android:layout_width="129dp"
+            android:layout_height="36dp"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="116dp"
+            android:background="@drawable/button1"
+            android:text="Gacha"
+            android:textColor="@color/main_add_new"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/characterList"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFF" />
+        android:background="@color/main_add_new" />
 
     <!-- 抽屉视图 -->
 <!--    <androidx.recyclerview.widget.RecyclerView-->
