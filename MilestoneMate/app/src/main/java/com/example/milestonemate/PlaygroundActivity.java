@@ -328,9 +328,12 @@ public class PlaygroundActivity extends AppCompatActivity {
 
     private void showDialogue(){
         int max = 2;
-        float currentRelationship = db.getRelationshipByUidAndName(uid, currentCharacter);
-        if (currentRelationship >= 50 && currentRelationship < 100) max = 3;
-        if (currentRelationship >= 100) max = 4;
+
+        if (currentCharacter != null){
+            float currentRelationship = db.getRelationshipByUidAndName(uid, currentCharacter);
+            if (currentRelationship >= 50 && currentRelationship < 100) max = 3;
+            if (currentRelationship >= 100) max = 4;
+        }
 
         int randNum = new Random().nextInt(max);
 
