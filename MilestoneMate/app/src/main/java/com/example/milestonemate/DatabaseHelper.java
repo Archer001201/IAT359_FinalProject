@@ -67,6 +67,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Constants.AMOUNT_GIFT + " INTEGER);";
     private static final String DROP_USER_GIFT_TABLE = "DROP TABLE IF EXISTS " + Constants.USER_GIFT_TABLE;
 
+    private static final String CREATE_CHARACTER_DIALOGUE_TABLE =
+            "CREATE TABLE " +
+                    Constants.CHARACTER_DIALOGUE_TABLE + " (" +
+                    Constants.NAME_DIALOGUE + " TEXT, " +
+                    Constants.LEVEL_ONE + " TEXT, " +
+                    Constants.LEVEL_TWO + " TEXT);";
+    private static final String DROP_CHARACTER_DIALOGUE_TABLE = "DROP TABLE IF EXISTS " + Constants.CHARACTER_DIALOGUE_TABLE;
+
     // Constructor for DatabaseHelper
     public DatabaseHelper(Context context){
         super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
@@ -82,8 +90,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_BANNER_TABLE);
             db.execSQL(CREATE_USER_CHARACTER_TABLE);
             db.execSQL(CREATE_USER_GIFT_TABLE);
+            db.execSQL(CREATE_CHARACTER_DIALOGUE_TABLE);
 
             insertInitialData(db);
+            insertDialogueInitialData(db);
             Toast.makeText(context, "onCreate() called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "exception onCreate() db", Toast.LENGTH_LONG).show();
@@ -98,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(DROP_BANNER_TABLE);
             db.execSQL(DROP_USER_CHARACTER_TABLE);
             db.execSQL(DROP_USER_GIFT_TABLE);
+            db.execSQL(DROP_CHARACTER_DIALOGUE_TABLE);
             onCreate(db);
             Toast.makeText(context, "onUpgrade called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
@@ -127,6 +138,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 {"Cupcake", Constants.GIFT, "img/cupcake2.png", "img/cupcake2.png", 20},
                 {"Potion Love", Constants.GIFT, "img/potion-love.png", "img/potion-love.png", 50}
                 // 可以继续添加更多行数据
+        };
+
+        for (Object[] row : data) {
+            db.execSQL(insertData, row);
+        }
+    }
+
+    //initialize character_dialogue table
+    private void insertDialogueInitialData(SQLiteDatabase db){
+        // 示例：向 BANNER_TABLE 插入一些初始化数据
+        String insertData = "INSERT INTO " + Constants.CHARACTER_DIALOGUE_TABLE +
+                " (" + Constants.NAME_DIALOGUE + ", " +
+                Constants.LEVEL_ONE + ", " +
+                Constants.LEVEL_TWO + ") VALUES (?, ?, ?)";
+
+        // 以防你想添加多条记录，可以使用循环或者准备多个数据数组
+        Object[][] data = {
+                {"Keqing", "Come on. Enough procrastinating. Let's go.", "I'm all for work-life balance, but I think this is pushing it."},
+                {"Hu Tao", "Wanna come over for tea?", "Well are those who rise in the early morn, while those late to bed I shall forewarn."},
+                {"Ayaka", "Delighted to make your acquaintance.", "I only wish life could be as leisurely as this a little more often."},
+                {"Kokomi", "To survive hardship, you must prepare for hardship.", "Time seems to slip away when I'm with you."},
         };
 
         for (Object[] row : data) {

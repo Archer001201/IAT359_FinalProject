@@ -30,12 +30,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 public class PlaygroundActivity extends AppCompatActivity {
     MyDatabase db;
     private ImageView characterImage;
-    private String uid;
+    private String uid, username;
     private RecyclerView characterRecyclerView;
     private RecyclerView.Adapter characterAdapter;
     private RecyclerView.LayoutManager characterLayoutManager;
@@ -50,6 +54,8 @@ public class PlaygroundActivity extends AppCompatActivity {
     private Button button;
     private TextView relationshipView;
     private String currentCharacter;
+    private TextView dialogueText;
+    private String currentDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +63,12 @@ public class PlaygroundActivity extends AppCompatActivity {
         setContentView(R.layout.playground);
         db = new MyDatabase(this);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        currentDate = dateFormat.format(new Date());
+
         giftRecyclerView = findViewById(R.id.giftList);
         characterRecyclerView = findViewById(R.id.characterList);
+        dialogueText = findViewById(R.id.dialogueTextView);
 
         characterImage = findViewById(R.id.characterImage);
         characterImage.setOnDragListener(new MyDragListener());
@@ -70,6 +80,7 @@ public class PlaygroundActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "0");
+        username = sharedPreferences.getString("username", "0");
         characterList = db.getItemsByUidAndType(uid, Constants.CHARACTER);
         giftList = db.getItemsByUidAndType(uid, Constants.GIFT);
 
@@ -77,6 +88,11 @@ public class PlaygroundActivity extends AppCompatActivity {
 //        setupDrawer();
         displayGiftList();
         displayCharacterList();
+        showDialogue();
+
+        characterImage.setOnClickListener(v -> {
+            showDialogue();
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,5 +324,34 @@ public class PlaygroundActivity extends AppCompatActivity {
             // 处理异常，例如文件未找到
             e.printStackTrace();
         }
+    }
+
+    private void showDialogue(){
+        int max = 2;
+        float currentRelationship = db.getRelationshipByUidAndName(uid, currentCharacter);
+        if (currentRelationship >= 50 && currentRelationship < 100) max = 3;
+        if (currentRelationship >= 100) max = 4;
+
+        int randNum = new Random().nextInt(max);
+
+        String dialougue = "";
+        if (randNum == 0){
+            List<TodoSlot> todoList = db.getTodoListById(uid, currentDate, "Today", "Incomplete");
+            dialougue = username + ", you have " + todoList.size()  + " tasks remaining for today.";
+        }
+        if (randNum == 1){
+            List<TodoSlot> todoList = db.getTodoListById(uid, currentDate, "Today", "Completed");
+            dialougue = username + ", you have completed " + todoList.size()  + " tasks today.";
+        }
+        if (randNum == 2){
+            List<String> dialogues = db.queryDialogueByCharacter(currentCharacter);
+            dialougue = dialogues.get(0);
+        }
+        if (randNum == 3){
+            List<String> dialogues = db.queryDialogueByCharacter(currentCharacter);
+            dialougue = dialogues.get(1);
+        }
+
+        dialogueText.setText(dialougue);
     }
 }

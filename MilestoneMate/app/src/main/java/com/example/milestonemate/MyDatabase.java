@@ -369,7 +369,7 @@ public class MyDatabase {
             ContentValues contentValues = new ContentValues();
             contentValues.put(Constants.UID_CHARACTER, uid);
             contentValues.put(Constants.NAME_CHARACTER, characterName);
-            contentValues.put(Constants.RELATIONSHIP, 50);
+            contentValues.put(Constants.RELATIONSHIP, 0);
 
             db.insert(Constants.USER_CHARACTER_TABLE, null, contentValues);
         }
@@ -580,5 +580,39 @@ public class MyDatabase {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.RELATIONSHIP, value);
         db.update(Constants.USER_CHARACTER_TABLE, contentValues, selection, selectionArgs);
+    }
+
+    public List<String> queryDialogueByCharacter(String name){
+        List<String> dialogues = new ArrayList<String>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.query(
+                Constants.CHARACTER_DIALOGUE_TABLE,
+                null,
+                Constants.NAME_DIALOGUE + "=?",
+                new String[]{name},
+                null,null,null
+        );
+
+        int levelOneIndex = cursor.getColumnIndex(Constants.LEVEL_ONE);
+        int levelTwoIndex = cursor.getColumnIndex(Constants.LEVEL_TWO);
+
+        try {
+            while (cursor.moveToNext()) {
+                // 假设你要获取的两个列分别是COLUMN_A和COLUMN_B
+                String levelOne = cursor.getString(levelOneIndex);
+                String levelTwo = cursor.getString(levelTwoIndex);
+
+                // 将这两个值以你希望的方式合并，这里简单地将它们连接起来
+//                String combinedValue = columnAValue + " " + columnBValue; // 或者任何你希望的格式
+
+                // 将合并后的字符串添加到列表中
+                dialogues.add(levelOne);
+                dialogues.add(levelTwo);
+            }
+        } finally {
+            cursor.close(); // 确保使用完毕后关闭Cursor
+        }
+
+        return dialogues;
     }
 }
